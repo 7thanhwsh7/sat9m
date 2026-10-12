@@ -18,6 +18,8 @@
           trường này KHÔNG hiển thị cho học sinh, chỉ để bạn tổ chức
           câu hỏi cho dễ.
      Toàn bộ giao diện hiển thị cho học sinh dùng tiếng Anh.
+     TẢI ĐỀ PDF (chỉ giáo viên): mở file/link có thêm #teacher ở cuối
+       (vd: .../index.html#teacher) → nút "Download test (PDF)" hiện ở màn hình bắt đầu.
      ========================================================== */
   :root{
     --text:#141414; --muted:#5b6472; --line:#d8dbe0;
@@ -375,6 +377,28 @@
     .refCard-wide{grid-column:span 3;}
   }
 
+  /* ---------- TEACHER: DOWNLOAD TEST PDF ---------- */
+  .wcard .wDl{width:100%;margin-top:10px;background:#fff;color:#0f4f94;border:1px solid #0f4f94;border-radius:3px;padding:10px;
+    font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;}
+  .wcard .wDl:hover{background:#eef3fa;}
+  .wcard .wDl:disabled{opacity:.6;cursor:wait;}
+  .dlOpt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid #c9ced6;border-radius:6px;padding:12px 14px;
+    margin-bottom:10px;cursor:pointer;font-family:inherit;}
+  .dlOpt:hover{border-color:#0f4f94;background:#f4f7fc;}
+  .dlOpt b{display:block;font-size:14px;color:#0b2447;margin-bottom:3px;}
+  .dlOpt span{font-size:12.5px;color:#5b6472;}
+  .pdfRoot .pdfQBox.flow{white-space:normal;}
+  .pdfRoot .pdfQBox svg{max-width:100%;height:auto;}
+  .pdfRoot .pdfQType{font-weight:400;color:#5b6472;font-size:11.5px;}
+  .pdfRoot .pdfOpt.keyOn{border:2px solid #1f8a4c;background:#e8f7ee;}
+  .pdfRoot .pdfOpt.keyOn .pdfLetter{background:#1f8a4c;border-color:#1f8a4c;color:#fff;}
+  .pdfRoot .pdfAnsBox i.keyFill{width:auto;min-width:170px;height:auto;font-style:normal;color:#1f8a4c;border-color:#1f8a4c;
+    background:#e8f7ee;padding:5px 10px;}
+  .pdfRoot .pdfModHead{font-size:16px;font-weight:700;color:#0d3b8c;border-bottom:2px solid #0d3b8c;padding-bottom:4px;margin:18px 0 4px;}
+  .pdfRoot .pdfKeyGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px;}
+  .pdfRoot .pdfKeyCell{border:1px solid #d8dbe0;border-radius:6px;padding:7px 10px;font-size:12.5px;display:flex;justify-content:space-between;gap:8px;}
+  .pdfRoot .pdfKeyCell b{color:#1f8a4c;}
+
   /* ---------- PDF REVIEW REPORT ---------- */
   .question-block{page-break-inside:avoid !important;break-inside:avoid !important;}
   .pdfRoot{width:700px;background:#fff;color:#141414;font-family:'Georgia',serif;padding:8px 6px;}
@@ -432,6 +456,7 @@
       <label for="clsInput">Class</label>
       <input type="text" id="clsInput" placeholder="Class" autocomplete="off">
       <button class="wStart" onclick="startTest()">Start Test</button>
+      <button class="wDl" id="teacherDlBtn" onclick="openModal('downloadModal')" style="display:none;">Download test (PDF)</button>
     </div>
   </div>
 </div>
@@ -591,6 +616,18 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<div class="modalOverlay" id="downloadModal">
+  <div class="nmBox">
+    <div class="nmHead">DOWNLOAD TEST (PDF)</div>
+    <div class="nmBody">
+      <h3>Chọn kiểu tải</h3>
+      <button class="dlOpt" onclick="downloadTestPDF('key')"><b>Đề có key</b><span>Ô đáp án đúng được tô màu xanh ngay trong đề.</span></button>
+      <button class="dlOpt" onclick="downloadTestPDF('separate')"><b>Đề riêng + key riêng</b><span>Đề sạch (không tô), bảng đáp án ở trang cuối.</span></button>
+      <div class="nmBtns" style="margin-top:6px;"><button class="stay" onclick="closeModal('downloadModal')">Hủy</button></div>
+    </div>
   </div>
 </div>
 
@@ -1682,6 +1719,144 @@ function submitTest(auto){
   document.getElementById('resultsScreen').style.display = 'block';
 }
 
+/* ---------- TEACHER: DOWNLOAD TEST PDF (đề có key / đề + key trang cuối) ---------- */
+if(/teacher/i.test(location.search + location.hash)){
+  document.getElementById('teacherDlBtn').style.display = 'block';
+}
+/* html2canvas không vẽ được SVG inline → đổi mọi hình SVG thành ảnh PNG trước khi xuất PDF */
+function svgsToImages(root){
+  const jobs = Array.from(root.querySelectorAll('svg')).map(svg => new Promise(resolve => {
+    const vb = (svg.getAttribute('viewBox') || '').split(/[\s,]+/).map(Number);
+    const box = svg.getBoundingClientRect();
+    const w = box.width || vb[2] || 300, h = box.height || vb[3] || 150;
+    const clone = svg.cloneNode(true);
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    clone.setAttribute('width', w); clone.setAttribute('height', h);
+    clone.removeAttribute('style');
+    const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(clone));
+    const img = new Image();
+    img.onload = () => {
+      const sc = 3, cv = document.createElement('canvas');
+      cv.width = Math.round(w * sc); cv.height = Math.round(h * sc);
+      const ctx = cv.getContext('2d');
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(img, 0, 0, cv.width, cv.height);
+      const out = document.createElement('img');
+      out.src = cv.toDataURL('image/png');
+      out.style.cssText = 'display:block;margin:0 auto;width:' + w + 'px;height:' + h + 'px;max-width:100%;';
+      svg.replaceWith(out);
+      out.onload = resolve; out.onerror = resolve;
+    };
+    img.onerror = resolve;
+    img.src = url;
+  }));
+  return Promise.all(jobs);
+}
+function testKeyText(q){ return [].concat(q.correctKey).join('  or  '); }
+function testQuestionBlock(q, n, withKey){
+  let b = '<div class="question-block pdfBlockPad">';
+  b += '<div class="pdfQNum">Question ' + n + (q.type === 'gridin' ? ' <span class="pdfQType">(Student-produced response)</span>' : '') + '</div>';
+  if(q.image){ b += '<img class="pdfQImg" src="' + escapeHtml(q.image) + '" crossorigin="anonymous" alt="">'; }
+  b += '<div class="pdfQBox flow">' + q.questionText + '</div>';
+  if(q.type === 'gridin'){
+    b += '<div class="pdfAnsBox">Answer:' + (withKey ? '<i class="keyFill">' + escapeHtml(testKeyText(q)) + '</i>' : '<i></i>') + '</div>';
+  } else {
+    (q.options || []).forEach((opt, k) => {
+      const on = withKey && LETTERS[k] === q.correctKey;
+      b += '<div class="pdfOpt' + (on ? ' keyOn' : '') + '"><span class="pdfLetter">' + LETTERS[k] + '</span><span>' + opt + '</span></div>';
+    });
+  }
+  return b + '</div>';
+}
+function buildTestPdfChunks(mode){
+  const withKey = mode === 'key';
+  const PER = 6;   // số câu mỗi khối render (chia nhỏ để không vượt giới hạn canvas của trình duyệt)
+  const multi = MODULE_IDS.length > 1;
+  let header = '<div class="pdfBrand">G.EDU</div><h1>SAT Math Practice' + (withKey ? ' — Answer Key' : '') + '</h1>';
+  header += '<div class="pdfMeta"><div><span><b>Test:</b> ' + escapeHtml(TEST_NAME) + '</span>'
+    + '<span><b>Questions:</b> ' + QUESTIONS.length + '</span>'
+    + '<span><b>Time:</b> ' + TIME_LIMIT_MINUTES + ' min' + (multi ? ' per module' : '') + '</span></div>';
+  if(!withKey) header += '<div><span><b>Name:</b> ______________________________</span><span><b>Class:</b> ____________</span></div>';
+  header += '</div>';
+  const chunks = [];
+  MODULE_IDS.forEach(m => {
+    const qs = QUESTIONS.filter(q => modOf(q) === m);
+    for(let i = 0; i < qs.length; i += PER){
+      let html = chunks.length === 0 ? header : '';
+      if(i === 0 && multi) html += '<div class="pdfModHead">Module ' + m + '</div>';
+      html += qs.slice(i, i + PER).map((q, k) => testQuestionBlock(q, i + k + 1, withKey)).join('');
+      chunks.push(html);
+    }
+  });
+  if(mode === 'separate'){
+    let key = '<div class="pdfBrand">G.EDU</div><h1>Answer Key</h1>'
+      + '<div class="pdfMeta"><div><span><b>Test:</b> ' + escapeHtml(TEST_NAME) + '</span></div></div>';
+    MODULE_IDS.forEach(m => {
+      const qs = QUESTIONS.filter(q => modOf(q) === m);
+      if(multi) key += '<div class="pdfModHead">Module ' + m + '</div>';
+      key += '<div class="pdfKeyGrid" style="margin-top:10px;">' + qs.map((q, k) =>
+        '<div class="pdfKeyCell"><span>' + (k + 1) + '.</span><b>' + escapeHtml(testKeyText(q)) + '</b></div>').join('') + '</div>';
+    });
+    chunks.push(key);
+  }
+  return chunks;
+}
+function downloadTestPDF(mode){
+  closeModal('downloadModal');
+  if(typeof html2pdf === 'undefined'){
+    alert('The PDF tool could not be loaded. Please check your internet connection and try again.');
+    return;
+  }
+  const btn = document.getElementById('teacherDlBtn');
+  const oldLabel = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Generating PDF...';
+
+  const holder = document.createElement('div');
+  holder.style.cssText = 'position:fixed;left:-10000px;top:0;width:720px;background:#fff;';
+  const els = buildTestPdfChunks(mode).map(h => {
+    const d = document.createElement('div');
+    d.className = 'pdfRoot';
+    d.innerHTML = h;
+    holder.appendChild(d);
+    return d;
+  });
+  document.body.appendChild(holder);
+
+  const safe = s => String(s || '').replace(/[^A-Za-z0-9_-]+/g, '_');
+  const opt = {
+    margin: [12, 12, 16, 12],
+    filename: 'GEDU_' + safe(TEST_NAME) + (mode === 'key' ? '_DeCoKey' : '_De_KeyRieng') + '.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['css', 'legacy'], avoid: '.question-block' }
+  };
+
+  svgsToImages(holder).then(function(){
+  let worker = html2pdf().set(opt).from(els[0]).toPdf();
+  els.slice(1).forEach(el => {
+    worker = worker.get('pdf').then(pdf => { pdf.addPage(); }).from(el).toContainer().toCanvas().toPdf();
+  });
+  worker.get('pdf').then(function(pdf){
+    const n = pdf.internal.getNumberOfPages();
+    const w = pdf.internal.pageSize.getWidth();
+    const hgt = pdf.internal.pageSize.getHeight();
+    for(let i = 1; i <= n; i++){
+      pdf.setPage(i);
+      pdf.setFontSize(9);
+      pdf.setTextColor(120);
+      pdf.text('G.EDU  |  ' + TEST_NAME + '  |  Page ' + i + ' / ' + n, w/2, hgt - 8, { align: 'center' });
+    }
+  }).save().catch(function(err){
+    console.error(err);
+    alert('Could not create the PDF. Please try again.');
+  }).then(function(){
+    holder.remove();
+    btn.disabled = false; btn.textContent = oldLabel;
+  });
+  });
+}
+
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
@@ -1782,7 +1957,7 @@ function downloadReviewPDF(){
 
   const oldLabel = btn.textContent;
   btn.disabled = true; btn.textContent = 'Generating PDF...';
-  html2pdf().set(opt).from(el).toPdf().get('pdf').then(function(pdf){
+  svgsToImages(el).then(() => html2pdf().set(opt).from(el).toPdf().get('pdf').then(function(pdf){
     const n = pdf.internal.getNumberOfPages();
     const w = pdf.internal.pageSize.getWidth();
     const hgt = pdf.internal.pageSize.getHeight();
@@ -1792,7 +1967,7 @@ function downloadReviewPDF(){
       pdf.setTextColor(120);
       pdf.text('G.EDU  |  Page ' + i + ' / ' + n, w/2, hgt - 8, { align: 'center' });
     }
-  }).save().catch(function(err){
+  }).save()).catch(function(err){
     console.error(err);
     alert('Could not create the PDF. Please try again.');
   }).then(function(){
