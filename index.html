@@ -282,6 +282,8 @@
   .wcard .brand-logo{font-weight:800;font-size:12.5px;letter-spacing:3px;color:#0b3a74;margin-bottom:3px;}
   .wcard .brand-sub{font-size:11.5px;color:#5b6472;margin-bottom:20px;}
   .wcard h2{font-size:26px;font-weight:800;color:#0b2447;margin:0;letter-spacing:-.3px;}
+  .wcard .wTestNo{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:800;letter-spacing:1.6px;color:#0b3a74;background:#eef3fa;border:1px solid #c9d6ea;border-radius:3px;padding:4px 12px;text-transform:uppercase;}
+  .wcard .wTestNo:empty{display:none;}
   .wcard .wRule{width:42px;height:3px;background:#f2b233;border-radius:2px;margin:16px auto 14px;}
   .wcard .wLead{font-size:14px;color:#2b3440;margin:0 0 20px;}
   .wcard label{display:block;text-align:left;font-size:12.5px;font-weight:700;color:#141414;margin-bottom:6px;}
@@ -448,6 +450,7 @@
       <div class="brand-logo">G.EDU</div>
       <div class="brand-sub">G.EDU Language Center</div>
       <h2>SAT Math Practice</h2>
+      <div class="wTestNo" id="wTestNo"></div>
       <div class="wRule"></div>
       <p class="wLead">Enter your name and class to begin.</p>
       <label for="nameInput">Full name</label>
@@ -725,66 +728,22 @@ const FIG_Q39 = `<div style="text-align:center;margin:0 0 22px;"><svg viewBox="5
 
 const QUESTIONS = [
   /* ===================== MODULE 1 ===================== */
-  /* Q1 ← nguồn 7 */
-  { id: 1, module: 1, domain: "Algebra", type: "mcq",
-    questionText: EQ(`<i>y</i> &lt; <i>x</i>`) + EQ(`<i>x</i> &lt; 31`)
-      + `For which of the following tables are all the values of <i>x</i> and their corresponding values of <i>y</i> solutions to the given system of inequalities?`,
+  /* Q1 (cũ Q17) ← nguồn 45 */
+  { id: 1, module: 1, domain: "Geometry and Trigonometry", type: "mcq",
+    questionText: `A rectangle has a length of 100 centimeters and a width of 400 centimeters. What is the area, in square centimeters, of the rectangle?`,
     image: null,
-    options: [XY([[28,27],[29,28],[30,29]]), XY([[28,29],[29,30],[30,31]]), XY([[32,31],[33,32],[34,33]]), XY([[32,33],[33,34],[34,35]])],
-    correctKey: "A" },
+    options: [`100`, `500`, `40,000`, `40,400`],
+    correctKey: "C" },
 
-  /* Q2 ← nguồn 36 */
-  { id: 2, module: 1, domain: "Algebra", type: "mcq",
-    questionText: `How many solutions does the equation 6<i>x</i> + 4 = 22 have?`,
-    image: null,
-    options: [`Exactly one`, `Exactly two`, `Infinitely many`, `Zero`],
-    correctKey: "A" },
-
-  /* Q3 ← nguồn 187 */
-  { id: 3, module: 1, domain: "Geometry and Trigonometry", type: "mcq",
+  /* Q2 (cũ Q3) ← nguồn 187 */
+  { id: 2, module: 1, domain: "Geometry and Trigonometry", type: "mcq",
     questionText: `In △<i>ABC</i>, the sum of the measures of ∠<i>A</i> and ∠<i>B</i> is 159.5° What is the measure of ∠<i>C</i>?`,
     image: null,
     options: [`20.5°`, `90°`, `110.5°`, `180°`],
     correctKey: "A" },
 
-  /* Q4 ← nguồn 33 */
-  { id: 4, module: 1, domain: "Algebra", type: "mcq",
-    questionText: `Kayra spent $74 at a book sale and bought a total of 22 books. She bought <i>h</i> hardcover books for $4 each and <i>p</i> paperback books for $3 each. Which system of equations represents this situation?`,
-    image: null,
-    options: [`<i>h</i> + <i>p</i> = 22<br>3<i>h</i> + 4<i>p</i> = 74`, `<i>h</i> + <i>p</i> = 22<br>4<i>h</i> + 3<i>p</i> = 74`,
-              `<i>h</i> + <i>p</i> = 74<br>3<i>h</i> + 4<i>p</i> = 22`, `<i>h</i> + <i>p</i> = 74<br>4<i>h</i> + 3<i>p</i> = 22`],
-    correctKey: "B" },
-
-  /* Q5 ← nguồn 28 */
-  { id: 5, module: 1, domain: "Algebra", type: "mcq",
-    questionText: `On January 1, 2000, the population of a town was 26,255 and on January 1, 2010, the population was 27,056. The equation 10<i>x</i> + 26,255 = 27,056 describes this situation. Which of the following is the best interpretation of <i>x</i> in this context?`,
-    image: null,
-    options: [`The total increase in population between 2000 and 2010`,
-              `The projected population of the town 10 years after 2010`,
-              `The average increase per year of the population between 2000 and 2010`,
-              `The percentage by which the population of the town increased each year between 2000 and 2010`],
-    correctKey: "C" },
-
-  /* Q6 ← nguồn 108 (hình vẽ lại bằng SVG) */
-  { id: 6, module: 1, domain: "Geometry and Trigonometry", type: "gridin",
-    questionText: FIG_Q6
-      + `In the figure shown, <i>d</i>, <i>e</i>, and <i>f</i> are constants and the value of <i>k</i> is 3. If the measure of angles <i>D</i>, <i>E</i>, and <i>F</i> are 30°, <i>x</i>°, and 2<i>x</i> + 6°, respectively, what is the measure, in degrees, of angle <i>S</i>?`,
-    image: null, correctKey: "102" },
-
-  /* Q7 ← nguồn 75 */
-  { id: 7, module: 1, domain: "Advanced Math", type: "gridin",
-    questionText: `The expression 6<i>x</i><sup>4</sup> + 17<i>x</i><sup>2</sup> + 5 can be rewritten as (3<i>x</i><sup>2</sup> + <i>a</i>)(2<i>x</i><sup>2</sup> + <i>b</i>), where <i>a</i> and <i>b</i> are positive integers, or as (3<i>x</i><sup>2</sup> + <i>c</i>)(2<i>x</i><sup>2</sup> + <i>d</i>), where <i>c</i> and <i>d</i> are positive nonintegers. What is the value of <i>a</i> + <i>c</i>?`,
-    image: null, correctKey: ["17/2", "8.5"] },
-
-  /* Q8 ← nguồn 58 */
-  { id: 8, module: 1, domain: "Algebra", type: "mcq",
-    questionText: `If 4<i>x</i> − 9 − 4 = 7<i>x</i> − 9 + 4, what is the value of <i>x</i>?`,
-    image: null,
-    options: [`−` + F('8','3'), `−` + F('3','8'), F('4','7'), F('8','11')],
-    correctKey: "A" },
-
-  /* Q9 ← nguồn 126 */
-  { id: 9, module: 1, domain: "Problem-Solving and Data Analysis", type: "mcq",
+  /* Q3 (cũ Q9) ← nguồn 126 */
+  { id: 3, module: 1, domain: "Problem-Solving and Data Analysis", type: "mcq",
     questionText: `The table summarizes the distribution of average pitching speed, in miles per hour mph, for a sample of 21 pitchers in a youth softball league.`
       + `<table style="border-collapse:collapse;margin:18px auto 22px;text-align:center;font-size:16px;">`
       + `<tr>${TD('Average pitching speed')}${TD('Number of pitchers')}</tr>`
@@ -797,61 +756,78 @@ const QUESTIONS = [
     options: [`11`, `5`, `4`, `1`],
     correctKey: "A" },
 
-  /* Q10 ← nguồn 6 */
-  { id: 10, module: 1, domain: "Geometry and Trigonometry", type: "mcq",
-    questionText: `The height of a right circular cylinder is 59 inches, and the circumference of its base is 590 inches. Which expression represents the total surface area, in square inches, of the cylinder?`,
-    image: null,
-    options: [`(59)(590)`,
-              `(π)(${F('295','π')})<sup>2</sup>(59)`,
-              `(59)(590) + (π)(${F('295','π')})<sup>2</sup>`,
-              `(59)(590) + (2π)(${F('295','π')})<sup>2</sup>`],
-    correctKey: "D" },
-
-  /* Q11 ← nguồn 178 */
-  { id: 11, module: 1, domain: "Advanced Math", type: "mcq",
-    questionText: EQ(`<i>y</i> = 9(<i>x</i> − 3)`) + EQ(`<i>y</i> = (<i>x</i> − 3)<sup>2</sup>`)
-      + `Which ordered pair (<i>x</i>, <i>y</i>) is a solution to the given system of equations?`,
-    image: null,
-    options: [`(6, −9)`, `(3, 12)`, `(12, 81)`, `(12, −9)`],
-    correctKey: "C" },
-
-  /* Q12 ← nguồn 62 */
-  { id: 12, module: 1, domain: "Algebra", type: "mcq",
-    questionText: `The function <i>f</i> is defined by <i>f</i>(<i>x</i>) = 3<i>x</i> − 7. If <i>f</i>(<i>a</i> + 1) = 2<i>a</i>, what is the value of <i>a</i>?`,
-    image: null,
-    options: [`6`, `7`, `4`, `−4`],
-    correctKey: "C" },
-
-  /* Q13 ← nguồn 131 */
-  { id: 13, module: 1, domain: "Algebra", type: "gridin",
-    questionText: `A manager is responsible for ordering supplies for a coffee shop. The shop's inventory starts with 6,600 disposable cups, and the manager estimates that 110 of these cups are used each day. Based on this estimate, in how many days will the inventory of disposable cups reach 1,100?`,
-    image: null, correctKey: "50" },
-
-  /* Q14 ← nguồn 109 */
-  { id: 14, module: 1, domain: "Algebra", type: "mcq",
+  /* Q4 (cũ Q14) ← nguồn 109 */
+  { id: 4, module: 1, domain: "Algebra", type: "mcq",
     questionText: `If 3<i>x</i> = 7, what is the value of 12<i>x</i>?`,
     image: null,
     options: [`3`, `11`, `25`, `28`],
     correctKey: "D" },
 
-  /* Q15 ← nguồn 134 */
-  { id: 15, module: 1, domain: "Algebra", type: "gridin",
-    questionText: `A company decides to sponsor an employee bowling team. The cost to form the team is $180 per team member plus a onetime $25 team-registration fee. What is the maximum number of team members who can join the team, if the company can spend $925 for the bowling team?`,
-    image: null, correctKey: "5" },
-
-  /* Q16 ← nguồn 118 */
-  { id: 16, module: 1, domain: "Algebra", type: "gridin",
-    questionText: `The function <i>f</i> is defined by the equation <i>f</i>(<i>x</i>) = 380<i>x</i>. What is the value of <i>f</i>(10)?`,
-    image: null, correctKey: "3800" },
-  /* Q17 ← nguồn 45 */
-  { id: 17, module: 1, domain: "Geometry and Trigonometry", type: "mcq",
-    questionText: `A rectangle has a length of 100 centimeters and a width of 400 centimeters. What is the area, in square centimeters, of the rectangle?`,
+  /* Q5 (cũ Q2) ← nguồn 36 */
+  { id: 5, module: 1, domain: "Algebra", type: "mcq",
+    questionText: `How many solutions does the equation 6<i>x</i> + 4 = 22 have?`,
     image: null,
-    options: [`100`, `500`, `40,000`, `40,400`],
+    options: [`Exactly one`, `Exactly two`, `Infinitely many`, `Zero`],
+    correctKey: "A" },
+
+  /* Q6 (cũ Q21) ← nguồn 107 */
+  { id: 6, module: 1, domain: "Algebra", type: "mcq",
+    questionText: EQ(`<i>y</i> = 30<i>x</i> + 200`)
+      + `The equation gives the total cost <i>y</i>, in dollars, for a small business to produce <i>x</i> shirts. How many shirts can the business produce for a total cost of $650?`,
+    image: null,
+    options: [`6`, `15`, `21`, `28`],
+    correctKey: "B" },
+
+  /* Q7 (cũ Q1) ← nguồn 7 */
+  { id: 7, module: 1, domain: "Algebra", type: "mcq",
+    questionText: EQ(`<i>y</i> &lt; <i>x</i>`) + EQ(`<i>x</i> &lt; 31`)
+      + `For which of the following tables are all the values of <i>x</i> and their corresponding values of <i>y</i> solutions to the given system of inequalities?`,
+    image: null,
+    options: [XY([[28,27],[29,28],[30,29]]), XY([[28,29],[29,30],[30,31]]), XY([[32,31],[33,32],[34,33]]), XY([[32,33],[33,34],[34,35]])],
+    correctKey: "A" },
+
+  /* Q8 (cũ Q8) ← nguồn 58 */
+  { id: 8, module: 1, domain: "Algebra", type: "mcq",
+    questionText: `If 4<i>x</i> − 9 − 4 = 7<i>x</i> − 9 + 4, what is the value of <i>x</i>?`,
+    image: null,
+    options: [`−` + F('8','3'), `−` + F('3','8'), F('4','7'), F('8','11')],
+    correctKey: "A" },
+
+  /* Q9 (cũ Q4) ← nguồn 33 */
+  { id: 9, module: 1, domain: "Algebra", type: "mcq",
+    questionText: `Kayra spent $74 at a book sale and bought a total of 22 books. She bought <i>h</i> hardcover books for $4 each and <i>p</i> paperback books for $3 each. Which system of equations represents this situation?`,
+    image: null,
+    options: [`<i>h</i> + <i>p</i> = 22<br>3<i>h</i> + 4<i>p</i> = 74`, `<i>h</i> + <i>p</i> = 22<br>4<i>h</i> + 3<i>p</i> = 74`,
+              `<i>h</i> + <i>p</i> = 74<br>3<i>h</i> + 4<i>p</i> = 22`, `<i>h</i> + <i>p</i> = 74<br>4<i>h</i> + 3<i>p</i> = 22`],
+    correctKey: "B" },
+
+  /* Q10 (cũ Q5) ← nguồn 28 */
+  { id: 10, module: 1, domain: "Algebra", type: "mcq",
+    questionText: `On January 1, 2000, the population of a town was 26,255 and on January 1, 2010, the population was 27,056. The equation 10<i>x</i> + 26,255 = 27,056 describes this situation. Which of the following is the best interpretation of <i>x</i> in this context?`,
+    image: null,
+    options: [`The total increase in population between 2000 and 2010`,
+              `The projected population of the town 10 years after 2010`,
+              `The average increase per year of the population between 2000 and 2010`,
+              `The percentage by which the population of the town increased each year between 2000 and 2010`],
     correctKey: "C" },
 
-  /* Q18 ← nguồn 163 */
-  { id: 18, module: 1, domain: "Algebra", type: "mcq",
+  /* Q11 (cũ Q12) ← nguồn 62 */
+  { id: 11, module: 1, domain: "Algebra", type: "mcq",
+    questionText: `The function <i>f</i> is defined by <i>f</i>(<i>x</i>) = 3<i>x</i> − 7. If <i>f</i>(<i>a</i> + 1) = 2<i>a</i>, what is the value of <i>a</i>?`,
+    image: null,
+    options: [`6`, `7`, `4`, `−4`],
+    correctKey: "C" },
+
+  /* Q12 (cũ Q19) ← nguồn 170 (đồ thị vẽ lại bằng SVG) */
+  { id: 12, module: 1, domain: "Algebra", type: "mcq",
+    questionText: FIG_Q19
+      + `Sunspots are temporary dark spots on the surface of the Sun. The monthly mean number of sunspots for one calendar month is the average of the number of sunspots observed each day during the month. The linear function <i>s</i> models the monthly mean number of sunspots as a function of the number of months, <i>x</i>, since December 2013, where 0 ≤ <i>x</i> ≤ 30. The graph of <span style="white-space:nowrap;"><i>y</i> = <i>s</i>(<i>x</i>)</span> is shown. Which of the following is the best estimate for the monthly mean number of sunspots in December 2014?`,
+    image: null,
+    options: [`61`, `71`, `81`, `91`],
+    correctKey: "D" },
+
+  /* Q13 (cũ Q18) ← nguồn 163 */
+  { id: 13, module: 1, domain: "Algebra", type: "mcq",
     questionText: `<table style="border-collapse:collapse;margin:4px auto 22px;text-align:center;font-size:16px;">`
       + `<tr>${TD('Number of cars')}${TD('Maximum number of passengers and crew')}</tr>`
       + `<tr>${TD('2')}${TD('81')}</tr>`
@@ -862,51 +838,111 @@ const QUESTIONS = [
     options: [`36<i>c</i> − <i>p</i> = −9`, `36<i>c</i> − <i>p</i> = 9`, `36<i>p</i> − <i>c</i> = −9`, `36<i>p</i> − <i>c</i> = 9`],
     correctKey: "A" },
 
-  /* Q19 ← nguồn 170 (đồ thị vẽ lại bằng SVG) */
-  { id: 19, module: 1, domain: "Algebra", type: "mcq",
-    questionText: FIG_Q19
-      + `Sunspots are temporary dark spots on the surface of the Sun. The monthly mean number of sunspots for one calendar month is the average of the number of sunspots observed each day during the month. The linear function <i>s</i> models the monthly mean number of sunspots as a function of the number of months, <i>x</i>, since December 2013, where 0 ≤ <i>x</i> ≤ 30. The graph of <span style="white-space:nowrap;"><i>y</i> = <i>s</i>(<i>x</i>)</span> is shown. Which of the following is the best estimate for the monthly mean number of sunspots in December 2014?`,
+  /* Q14 (cũ Q11) ← nguồn 178 */
+  { id: 14, module: 1, domain: "Advanced Math", type: "mcq",
+    questionText: EQ(`<i>y</i> = 9(<i>x</i> − 3)`) + EQ(`<i>y</i> = (<i>x</i> − 3)<sup>2</sup>`)
+      + `Which ordered pair (<i>x</i>, <i>y</i>) is a solution to the given system of equations?`,
     image: null,
-    options: [`61`, `71`, `81`, `91`],
-    correctKey: "D" },
+    options: [`(6, −9)`, `(3, 12)`, `(12, 81)`, `(12, −9)`],
+    correctKey: "C" },
 
-  /* Q20 ← nguồn 31 */
-  { id: 20, module: 1, domain: "Algebra", type: "gridin",
-    questionText: `In the <i>xy</i>-plane, line <i>k</i> has a slope of ${F('6','13')}, an <i>x</i>-intercept of (−6, 0), and a <i>y</i>-intercept of (0, <i>p</i>). What is the value of <i>p</i>?`,
-    image: null, correctKey: ["36/13", "2.769"] },
-
-  /* Q21 ← nguồn 107 */
-  { id: 21, module: 1, domain: "Algebra", type: "mcq",
-    questionText: EQ(`<i>y</i> = 30<i>x</i> + 200`)
-      + `The equation gives the total cost <i>y</i>, in dollars, for a small business to produce <i>x</i> shirts. How many shirts can the business produce for a total cost of $650?`,
-    image: null,
-    options: [`6`, `15`, `21`, `28`],
-    correctKey: "B" },
-
-  /* Q22 ← nguồn 102 */
-  { id: 22, module: 1, domain: "Algebra", type: "mcq",
+  /* Q15 (cũ Q22) ← nguồn 102 */
+  { id: 15, module: 1, domain: "Algebra", type: "mcq",
     questionText: `One gallon of sealant costs $17 and will cover 450 square feet of a surface. A deck has a total surface area of <i>d</i> square feet. Which equation represents the cost <i>c</i>, in dollars, of the sealant needed to cover the deck twice?`,
     image: null,
     options: [`<i>c</i> = ${F('450<i>d</i>','17')}`, `<i>c</i> = ${F('900<i>d</i>','17')}`,
               `<i>c</i> = 17${F('<i>d</i>','225')}`, `<i>c</i> = 17${F('<i>d</i>','450')}`],
     correctKey: "C" },
 
-  /* ===================== MODULE 2 ===================== */
-  /* Q23 ← nguồn 142 */
-  { id: 23, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
-    questionText: `In the <i>xy</i>-plane, an equation of circle <i>A</i> is (<i>x</i> − 2)<sup>2</sup> + (<i>y</i> − 7)<sup>2</sup> = 25. Circle <i>B</i> has the same center as circle <i>A</i> but has a radius that is twice the radius of circle <i>A</i>. Which equation represents circle <i>B</i>?`,
+  /* Q16 (cũ Q10) ← nguồn 6 */
+  { id: 16, module: 1, domain: "Geometry and Trigonometry", type: "mcq",
+    questionText: `The height of a right circular cylinder is 59 inches, and the circumference of its base is 590 inches. Which expression represents the total surface area, in square inches, of the cylinder?`,
     image: null,
-    options: [`(<i>x</i> − 2)<sup>2</sup> + (<i>y</i> − 7)<sup>2</sup> = 50`, `(<i>x</i> − 2)<sup>2</sup> + (<i>y</i> − 7)<sup>2</sup> = 100`,
-              `(<i>x</i> − 2)<sup>2</sup> + (<i>y</i> − 7)<sup>2</sup> = 250`, `(<i>x</i> − 2)<sup>2</sup> + (<i>y</i> − 7)<sup>2</sup> = 625`],
+    options: [`(59)(590)`,
+              `(π)(${F('295','π')})<sup>2</sup>(59)`,
+              `(59)(590) + (π)(${F('295','π')})<sup>2</sup>`,
+              `(59)(590) + (2π)(${F('295','π')})<sup>2</sup>`],
+    correctKey: "D" },
+
+  /* Q17 (cũ Q16) ← nguồn 118 */
+  { id: 17, module: 1, domain: "Algebra", type: "gridin",
+    questionText: `The function <i>f</i> is defined by the equation <i>f</i>(<i>x</i>) = 380<i>x</i>. What is the value of <i>f</i>(10)?`,
+    image: null, correctKey: "3800" },
+
+  /* Q18 (cũ Q15) ← nguồn 134 */
+  { id: 18, module: 1, domain: "Algebra", type: "gridin",
+    questionText: `A company decides to sponsor an employee bowling team. The cost to form the team is $180 per team member plus a onetime $25 team-registration fee. What is the maximum number of team members who can join the team, if the company can spend $925 for the bowling team?`,
+    image: null, correctKey: "5" },
+
+  /* Q19 (cũ Q13) ← nguồn 131 */
+  { id: 19, module: 1, domain: "Algebra", type: "gridin",
+    questionText: `A manager is responsible for ordering supplies for a coffee shop. The shop's inventory starts with 6,600 disposable cups, and the manager estimates that 110 of these cups are used each day. Based on this estimate, in how many days will the inventory of disposable cups reach 1,100?`,
+    image: null, correctKey: "50" },
+
+  /* Q20 (cũ Q20) ← nguồn 31 */
+  { id: 20, module: 1, domain: "Algebra", type: "gridin",
+    questionText: `In the <i>xy</i>-plane, line <i>k</i> has a slope of ${F('6','13')}, an <i>x</i>-intercept of (−6, 0), and a <i>y</i>-intercept of (0, <i>p</i>). What is the value of <i>p</i>?`,
+    image: null, correctKey: ["36/13", "2.769"] },
+
+  /* Q21 (cũ Q6) ← nguồn 108 (hình vẽ lại bằng SVG) */
+  { id: 21, module: 1, domain: "Geometry and Trigonometry", type: "gridin",
+    questionText: FIG_Q6
+      + `In the figure shown, <i>d</i>, <i>e</i>, and <i>f</i> are constants and the value of <i>k</i> is 3. If the measure of angles <i>D</i>, <i>E</i>, and <i>F</i> are 30°, <i>x</i>°, and 2<i>x</i> + 6°, respectively, what is the measure, in degrees, of angle <i>S</i>?`,
+    image: null, correctKey: "102" },
+
+  /* Q22 (cũ Q7) ← nguồn 75 */
+  { id: 22, module: 1, domain: "Advanced Math", type: "gridin",
+    questionText: `The expression 6<i>x</i><sup>4</sup> + 17<i>x</i><sup>2</sup> + 5 can be rewritten as (3<i>x</i><sup>2</sup> + <i>a</i>)(2<i>x</i><sup>2</sup> + <i>b</i>), where <i>a</i> and <i>b</i> are positive integers, or as (3<i>x</i><sup>2</sup> + <i>c</i>)(2<i>x</i><sup>2</sup> + <i>d</i>), where <i>c</i> and <i>d</i> are positive nonintegers. What is the value of <i>a</i> + <i>c</i>?`,
+    image: null, correctKey: ["17/2", "8.5"] },
+
+  /* ===================== MODULE 2 ===================== */
+  /* Q23 (cũ Q41) ← nguồn 193 */
+  { id: 23, module: 2, domain: "Advanced Math", type: "mcq",
+    questionText: `The function <i>f</i> is defined by <i>f</i>(<i>x</i>) = <i>x</i><sup>2</sup> + 79. What is the value of <i>f</i>(<i>x</i>) when <i>x</i> = 10?`,
+    image: null,
+    options: [`−179`, `−21`, `21`, `179`],
+    correctKey: "D" },
+
+  /* Q24 (cũ Q26) ← nguồn 180 */
+  { id: 24, module: 2, domain: "Problem-Solving and Data Analysis", type: "mcq",
+    questionText: `A local gym is offering a 25% discount on an annual membership. The regular cost of an annual membership is $312. How much less is the discounted cost of the membership than the regular cost of the membership?`,
+    image: null,
+    options: [`$25`, `$78`, `$234`, `$312`],
     correctKey: "B" },
 
-  /* Q24 ← nguồn 43 */
-  { id: 24, module: 2, domain: "Algebra", type: "gridin",
-    questionText: `A line in the <i>xy</i>-plane passes through the points (9, 1), (0, 8), and (<i>c</i>, 0). What is the value of <i>c</i>?`,
-    image: null, correctKey: ["72/7", "10.28"] },
+  /* Q25 (cũ Q39) ← nguồn 84 (biểu đồ vẽ lại bằng SVG) */
+  { id: 25, module: 2, domain: "Problem-Solving and Data Analysis", type: "mcq",
+    questionText: FIG_Q39
+      + `The bar graph shows the distribution of the number of students in each of four sports programs at a high school. How many more students are in the hockey program than the volleyball program?`,
+    image: null,
+    options: [`10`, `30`, `40`, `70`],
+    correctKey: "A" },
 
-  /* Q25 ← nguồn 144 */
-  { id: 25, module: 2, domain: "Advanced Math", type: "mcq",
+  /* Q26 (cũ Q33) ← nguồn 158 (đồ thị vẽ lại bằng SVG) */
+  { id: 26, module: 2, domain: "Problem-Solving and Data Analysis", type: "mcq",
+    questionText: FIG_Q33
+      + `The scatterplot shows the temperature, in degrees Fahrenheit °F, and the elevation, in feet, measured at 6 locations on a mountain. A line of best fit is also shown. At an elevation of 4,000 feet, what is the temperature, in °F, predicted by the line of best fit?`,
+    image: null,
+    options: [`54`, `30`, `15`, `0`],
+    correctKey: "B" },
+
+  /* Q27 (cũ Q42) ← nguồn 156 */
+  { id: 27, module: 2, domain: "Algebra", type: "mcq",
+    questionText: `A biologist recorded the pinching force of wild coconut crabs. The lowest pinching force recorded was 86.2 newtons and the highest pinching force recorded was 121.4 newtons. Which inequality is true for all values of <i>c</i>, where <i>c</i> represents any pinching force, in newtons, recorded for these wild coconut crabs?`,
+    image: null,
+    options: [`<i>c</i> ≤ 86.2`, `<i>c</i> ≥ 121.4`, `43.1 ≤ <i>c</i> ≤ 60.7`, `86.2 ≤ <i>c</i> ≤ 121.4`],
+    correctKey: "D" },
+
+  /* Q28 (cũ Q43) ← nguồn 23 */
+  { id: 28, module: 2, domain: "Algebra", type: "mcq",
+    questionText: EQ(`<i>y</i> = 5<i>x</i> + 18`) + EQ(`<i>y</i> = 5<i>x</i> − 18`)
+      + `How many solutions does the given system of equations have?`,
+    image: null,
+    options: [`Zero`, `Exactly one`, `Exactly two`, `Infinitely many`],
+    correctKey: "A" },
+
+  /* Q29 (cũ Q25) ← nguồn 144 */
+  { id: 29, module: 2, domain: "Advanced Math", type: "mcq",
     questionText: `The function <i>f</i>(<i>w</i>) = 9<i>w</i><sup>2</sup> gives the area of a rectangle, in square feet ft<sup>2</sup>, if its width is <i>w</i> ft and its length is 9 times its width. Which of the following is the best interpretation of <i>f</i>(12) = 1,296?`,
     image: null,
     options: [`If the width of the rectangle is 12 ft, then the area of the rectangle is 1,296 ft<sup>2</sup>`,
@@ -915,75 +951,15 @@ const QUESTIONS = [
               `If the width of the rectangle is 1,296 ft, then the length of the rectangle is 12 ft`],
     correctKey: "A" },
 
-  /* Q26 ← nguồn 180 */
-  { id: 26, module: 2, domain: "Problem-Solving and Data Analysis", type: "mcq",
-    questionText: `A local gym is offering a 25% discount on an annual membership. The regular cost of an annual membership is $312. How much less is the discounted cost of the membership than the regular cost of the membership?`,
-    image: null,
-    options: [`$25`, `$78`, `$234`, `$312`],
-    correctKey: "B" },
-
-  /* Q27 ← nguồn 71 */
-  { id: 27, module: 2, domain: "Problem-Solving and Data Analysis", type: "mcq",
+  /* Q30 (cũ Q27) ← nguồn 71 */
+  { id: 30, module: 2, domain: "Problem-Solving and Data Analysis", type: "mcq",
     questionText: `An insect moves at a speed of ${F('3','20')} feet per second. What is this speed, in yards per second? (3 feet = 1 yard)`,
     image: null,
     options: [F('1','20'), F('9','20'), `6`, `20`],
     correctKey: "A" },
 
-  /* Q28 ← nguồn 116 */
-  { id: 28, module: 2, domain: "Advanced Math", type: "gridin",
-    questionText: EQ(`<span style="font-size:1.2em;">${F('13','<i>x</i> + 1')} = ${F('13','7')}</span>`)
-      + `What value of <i>x</i> makes the given equation true?`,
-    image: null, correctKey: "6" },
-
-  /* Q29 ← nguồn 112 */
-  { id: 29, module: 2, domain: "Advanced Math", type: "mcq",
-    questionText: EQ(`97 − |<i>x</i> + 5| = 95`) + `What is the sum of the solutions to the given equation?`,
-    image: null,
-    options: [`−10`, `6`, `0`, `10`],
-    correctKey: "A" },
-
-  /* Q30 ← nguồn 117 */
-  { id: 30, module: 2, domain: "Advanced Math", type: "mcq",
-    questionText: EQ(`76 − |<i>x</i> + 3| = 73`) + `What is the sum of the solutions to the given equation?`,
-    image: null,
-    options: [`0`, `−3`, `−6`, `6`],
-    correctKey: "C" },
-
-  /* Q31 ← nguồn 119 */
-  { id: 31, module: 2, domain: "Algebra", type: "gridin",
-    questionText: EQ(`3<i>x</i> + 8<i>y</i> = 93`) + EQ(`<i>y</i> = 9`)
-      + `The solution to the given system of equations is (<i>x</i>, <i>y</i>). What is the value of <i>x</i>?`,
-    image: null, correctKey: "7" },
-
-  /* Q32 ← nguồn 128 */
-  { id: 32, module: 2, domain: "Advanced Math", type: "gridin",
-    questionText: `The expression 4<i>x</i><sup>6</sup> · 3<i>x</i> is equivalent to <i>bx</i><sup>7</sup>, where <i>b</i> is a constant. What is the value of <i>b</i>?`,
-    image: null, correctKey: "12" },
-
-  /* Q33 ← nguồn 158 (đồ thị vẽ lại bằng SVG) */
-  { id: 33, module: 2, domain: "Problem-Solving and Data Analysis", type: "mcq",
-    questionText: FIG_Q33
-      + `The scatterplot shows the temperature, in degrees Fahrenheit °F, and the elevation, in feet, measured at 6 locations on a mountain. A line of best fit is also shown. At an elevation of 4,000 feet, what is the temperature, in °F, predicted by the line of best fit?`,
-    image: null,
-    options: [`54`, `30`, `15`, `0`],
-    correctKey: "B" },
-
-  /* Q34 ← nguồn 130 (hình vẽ lại bằng SVG) */
-  { id: 34, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
-    questionText: FIG_Q34 + `If cos <i>A</i> = 0.65, what is the value of sin <i>C</i>?`,
-    image: null,
-    options: [`0.87`, `0.65`, `0.35`, `0.13`],
-    correctKey: "B" },
-
-  /* Q35 ← nguồn 57 (đồ thị vẽ lại bằng SVG) */
-  { id: 35, module: 2, domain: "Algebra", type: "mcq",
-    questionText: FIG_Q35 + `The shaded region shown represents the solutions to which inequality?`,
-    image: null,
-    options: [`<i>y</i> &lt; ${F('1','3')}<i>x</i> + 2`, `<i>y</i> &lt; <i>x</i> + 2`, `<i>y</i> &gt; ${F('1','3')}<i>x</i> + 2`, `<i>y</i> &gt; <i>x</i> + 2`],
-    correctKey: "D" },
-
-  /* Q36 ← nguồn 120 */
-  { id: 36, module: 2, domain: "Algebra", type: "mcq",
+  /* Q31 (cũ Q36) ← nguồn 120 */
+  { id: 31, module: 2, domain: "Algebra", type: "mcq",
     questionText: `On January 1, 2000, the population of a town was 26,257 and on January 1, 2010, the population was 26,858. The equation 10<i>x</i> + 26,257 = 26,858 describes this situation. Which of the following is the best interpretation of <i>x</i> in this context?`,
     image: null,
     options: [`The total increase in population between 2000 and 2010`,
@@ -992,62 +968,90 @@ const QUESTIONS = [
               `The percentage by which the population of the town increased each year between 2000 and 2010`],
     correctKey: "C" },
 
-  /* Q37 ← nguồn 66 */
+  /* Q32 (cũ Q35) ← nguồn 57 (đồ thị vẽ lại bằng SVG) */
+  { id: 32, module: 2, domain: "Algebra", type: "mcq",
+    questionText: FIG_Q35 + `The shaded region shown represents the solutions to which inequality?`,
+    image: null,
+    options: [`<i>y</i> &lt; ${F('1','3')}<i>x</i> + 2`, `<i>y</i> &lt; <i>x</i> + 2`, `<i>y</i> &gt; ${F('1','3')}<i>x</i> + 2`, `<i>y</i> &gt; <i>x</i> + 2`],
+    correctKey: "D" },
+
+  /* Q33 (cũ Q44) ← nguồn 10 */
+  { id: 33, module: 2, domain: "Algebra", type: "mcq",
+    questionText: `For the linear function <i>f</i>, <i>f</i>(−5) = −7, and the slope of the graph of <i>y</i> = <i>f</i>(<i>x</i>) in the <i>xy</i>-plane is 3. Which equation defines <i>f</i>?`,
+    image: null,
+    options: [`<i>f</i>(<i>x</i>) = 3<i>x</i> + 8`, `<i>f</i>(<i>x</i>) = 3<i>x</i> − 5`, `<i>f</i>(<i>x</i>) = 3<i>x</i> − 7`, `<i>f</i>(<i>x</i>) = 3<i>x</i> − 12`],
+    correctKey: "A" },
+
+  /* Q34 (cũ Q34) ← nguồn 130 (hình vẽ lại bằng SVG) */
+  { id: 34, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
+    questionText: FIG_Q34 + `If cos <i>A</i> = 0.65, what is the value of sin <i>C</i>?`,
+    image: null,
+    options: [`0.87`, `0.65`, `0.35`, `0.13`],
+    correctKey: "B" },
+
+  /* Q35 (cũ Q23) ← nguồn 142 */
+  { id: 35, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
+    questionText: `In the <i>xy</i>-plane, an equation of circle <i>A</i> is (<i>x</i> − 2)<sup>2</sup> + (<i>y</i> − 7)<sup>2</sup> = 25. Circle <i>B</i> has the same center as circle <i>A</i> but has a radius that is twice the radius of circle <i>A</i>. Which equation represents circle <i>B</i>?`,
+    image: null,
+    options: [`(<i>x</i> − 2)<sup>2</sup> + (<i>y</i> − 7)<sup>2</sup> = 50`, `(<i>x</i> − 2)<sup>2</sup> + (<i>y</i> − 7)<sup>2</sup> = 100`,
+              `(<i>x</i> − 2)<sup>2</sup> + (<i>y</i> − 7)<sup>2</sup> = 250`, `(<i>x</i> − 2)<sup>2</sup> + (<i>y</i> − 7)<sup>2</sup> = 625`],
+    correctKey: "B" },
+
+  /* Q36 (cũ Q29) ← nguồn 112 */
+  { id: 36, module: 2, domain: "Advanced Math", type: "mcq",
+    questionText: EQ(`97 − |<i>x</i> + 5| = 95`) + `What is the sum of the solutions to the given equation?`,
+    image: null,
+    options: [`−10`, `6`, `0`, `10`],
+    correctKey: "A" },
+
+  /* Q37 (cũ Q30) ← nguồn 117 */
   { id: 37, module: 2, domain: "Advanced Math", type: "mcq",
+    questionText: EQ(`76 − |<i>x</i> + 3| = 73`) + `What is the sum of the solutions to the given equation?`,
+    image: null,
+    options: [`0`, `−3`, `−6`, `6`],
+    correctKey: "C" },
+
+  /* Q38 (cũ Q40) ← nguồn 122 */
+  { id: 38, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
+    questionText: `The measure of angle <i>S</i> is ${F('9π','11')} radians. The measure of angle <i>T</i> is 3 times the measure of angle <i>S</i>. Which expression represents the measure, in degrees, of angle <i>T</i>?`,
+    image: null,
+    options: [F('9','11') + `(90)(3)`, F('9','11') + `(180)(3)`, F('9','11π') + `(90)(3)`, F('9π','11') + `(180)(3)`],
+    correctKey: "B" },
+
+  /* Q39 (cũ Q37) ← nguồn 66 */
+  { id: 39, module: 2, domain: "Advanced Math", type: "mcq",
     questionText: `An object is launched from a height of 132 feet above the ground. A quadratic function <i>f</i> models the height above the ground, in feet, of the object <i>t</i> seconds after it is launched. According to the model, 3 seconds after the object is launched, it reaches a maximum height of 276 feet above the ground. Which equation defines <i>f</i>?`,
     image: null,
     options: [`<i>f</i>(<i>t</i>) = −16<i>t</i> + 276<sup>2</sup> − 3`, `<i>f</i>(<i>t</i>) = −16<i>t</i> − 276<sup>2</sup> + 3`,
               `<i>f</i>(<i>t</i>) = −16(<i>t</i> + 3)<sup>2</sup> − 276`, `<i>f</i>(<i>t</i>) = −16(<i>t</i> − 3)<sup>2</sup> + 276`],
     correctKey: "D" },
 
-  /* Q38 ← nguồn 20 */
-  { id: 38, module: 2, domain: "Problem-Solving and Data Analysis", type: "gridin",
+  /* Q40 (cũ Q32) ← nguồn 128 */
+  { id: 40, module: 2, domain: "Advanced Math", type: "gridin",
+    questionText: `The expression 4<i>x</i><sup>6</sup> · 3<i>x</i> is equivalent to <i>bx</i><sup>7</sup>, where <i>b</i> is a constant. What is the value of <i>b</i>?`,
+    image: null, correctKey: "12" },
+
+  /* Q41 (cũ Q31) ← nguồn 119 */
+  { id: 41, module: 2, domain: "Algebra", type: "gridin",
+    questionText: EQ(`3<i>x</i> + 8<i>y</i> = 93`) + EQ(`<i>y</i> = 9`)
+      + `The solution to the given system of equations is (<i>x</i>, <i>y</i>). What is the value of <i>x</i>?`,
+    image: null, correctKey: "7" },
+
+  /* Q42 (cũ Q28) ← nguồn 116 */
+  { id: 42, module: 2, domain: "Advanced Math", type: "gridin",
+    questionText: EQ(`<span style="font-size:1.2em;">${F('13','<i>x</i> + 1')} = ${F('13','7')}</span>`)
+      + `What value of <i>x</i> makes the given equation true?`,
+    image: null, correctKey: "6" },
+
+  /* Q43 (cũ Q38) ← nguồn 20 */
+  { id: 43, module: 2, domain: "Problem-Solving and Data Analysis", type: "gridin",
     questionText: `An object traveled 0.80 meters for every 3.0 seconds it was in motion. If the object was in motion for 18 seconds, what is the total distance, in meters, the object traveled?`,
     image: null, correctKey: ["4.8", "24/5"] },
 
-  /* Q39 ← nguồn 84 (biểu đồ vẽ lại bằng SVG) */
-  { id: 39, module: 2, domain: "Problem-Solving and Data Analysis", type: "mcq",
-    questionText: FIG_Q39
-      + `The bar graph shows the distribution of the number of students in each of four sports programs at a high school. How many more students are in the hockey program than the volleyball program?`,
-    image: null,
-    options: [`10`, `30`, `40`, `70`],
-    correctKey: "A" },
-
-  /* Q40 ← nguồn 122 */
-  { id: 40, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
-    questionText: `The measure of angle <i>S</i> is ${F('9π','11')} radians. The measure of angle <i>T</i> is 3 times the measure of angle <i>S</i>. Which expression represents the measure, in degrees, of angle <i>T</i>?`,
-    image: null,
-    options: [F('9','11') + `(90)(3)`, F('9','11') + `(180)(3)`, F('9','11π') + `(90)(3)`, F('9π','11') + `(180)(3)`],
-    correctKey: "B" },
-
-  /* Q41 ← nguồn 193 */
-  { id: 41, module: 2, domain: "Advanced Math", type: "mcq",
-    questionText: `The function <i>f</i> is defined by <i>f</i>(<i>x</i>) = <i>x</i><sup>2</sup> + 79. What is the value of <i>f</i>(<i>x</i>) when <i>x</i> = 10?`,
-    image: null,
-    options: [`−179`, `−21`, `21`, `179`],
-    correctKey: "D" },
-
-  /* Q42 ← nguồn 156 */
-  { id: 42, module: 2, domain: "Algebra", type: "mcq",
-    questionText: `A biologist recorded the pinching force of wild coconut crabs. The lowest pinching force recorded was 86.2 newtons and the highest pinching force recorded was 121.4 newtons. Which inequality is true for all values of <i>c</i>, where <i>c</i> represents any pinching force, in newtons, recorded for these wild coconut crabs?`,
-    image: null,
-    options: [`<i>c</i> ≤ 86.2`, `<i>c</i> ≥ 121.4`, `43.1 ≤ <i>c</i> ≤ 60.7`, `86.2 ≤ <i>c</i> ≤ 121.4`],
-    correctKey: "D" },
-
-  /* Q43 ← nguồn 23 */
-  { id: 43, module: 2, domain: "Algebra", type: "mcq",
-    questionText: EQ(`<i>y</i> = 5<i>x</i> + 18`) + EQ(`<i>y</i> = 5<i>x</i> − 18`)
-      + `How many solutions does the given system of equations have?`,
-    image: null,
-    options: [`Zero`, `Exactly one`, `Exactly two`, `Infinitely many`],
-    correctKey: "A" },
-
-  /* Q44 ← nguồn 10 */
-  { id: 44, module: 2, domain: "Algebra", type: "mcq",
-    questionText: `For the linear function <i>f</i>, <i>f</i>(−5) = −7, and the slope of the graph of <i>y</i> = <i>f</i>(<i>x</i>) in the <i>xy</i>-plane is 3. Which equation defines <i>f</i>?`,
-    image: null,
-    options: [`<i>f</i>(<i>x</i>) = 3<i>x</i> + 8`, `<i>f</i>(<i>x</i>) = 3<i>x</i> − 5`, `<i>f</i>(<i>x</i>) = 3<i>x</i> − 7`, `<i>f</i>(<i>x</i>) = 3<i>x</i> − 12`],
-    correctKey: "A" }
+  /* Q44 (cũ Q24) ← nguồn 43 */
+  { id: 44, module: 2, domain: "Algebra", type: "gridin",
+    questionText: `A line in the <i>xy</i>-plane passes through the points (9, 1), (0, 8), and (<i>c</i>, 0). What is the value of <i>c</i>?`,
+    image: null, correctKey: ["72/7", "10.28"] }
 ];
 
 
@@ -1720,6 +1724,7 @@ function submitTest(auto){
 }
 
 /* ---------- TEACHER: DOWNLOAD TEST PDF (đề có key / đề + key trang cuối) ---------- */
+document.getElementById('wTestNo').textContent = TEST_NAME.replace(/\s+M$/i, '');
 if(/teacher/i.test(location.search + location.hash)){
   document.getElementById('teacherDlBtn').style.display = 'block';
 }
